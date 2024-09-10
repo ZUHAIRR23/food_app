@@ -120,7 +120,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => AddressPage());
+                },
                 child: Text(
                   "Continue",
                   style: blackFontStyle3.copyWith(
