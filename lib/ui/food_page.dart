@@ -98,7 +98,7 @@ class _FoodPageState extends State<FoodPage> {
                 },
               ),
               SizedBox(
-                height: 80,
+                height: 20,
               ),
               Builder(
                 builder: (_) {
