@@ -60,10 +60,42 @@ class _FoodPageState extends State<FoodPage> {
             vertical: defaultMargin,
           ),
           child: ListView(
-            scrollDirection: Axis.horizontal,
-          ),
-        )
+              scrollDirection: Axis.horizontal,
+              children: mockFoods
+                  .map(
+                    (food) => Padding(
+                      padding: EdgeInsets.only(
+                          left: (food == mockFoods.first) ? defaultMargin : 0,
+                          right: defaultMargin),
+                      child: FoodCard(
+                        food: food,
+                      ),
+                    ),
+                  )
+                  .toList()),
+        ),
         //   Tab Layout
+        Container(
+          width: double.infinity,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomTabbar(
+                titles: ['New Taste', 'Popular', 'Recomended'],
+                selectedIndex: selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+              ),
+              SizedBox(
+                height: 80,
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

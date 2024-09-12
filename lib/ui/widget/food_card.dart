@@ -20,12 +20,14 @@ class FoodCard extends StatelessWidget {
             offset: Offset(1, 1),
           ),
         ],
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         children: <Widget>[
           Container(
             height: 140,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
                 image: NetworkImage(food?.picturePath ?? ''),
                 fit: BoxFit.cover,

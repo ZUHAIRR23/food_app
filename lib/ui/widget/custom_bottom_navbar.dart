@@ -28,7 +28,7 @@ class CustomBottomNavbar extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              if(onTap != null) {
+              if (onTap != null) {
                 onTap!(0);
               }
             },
@@ -37,18 +37,17 @@ class CustomBottomNavbar extends StatelessWidget {
               height: 32,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    'assets/ic_home' +
-                        ((selectedIndex == 0) ? '.png' : '_normal.png'),
-                  ),
-                  fit: BoxFit.contain
-                ),
+                    image: AssetImage(
+                      'assets/ic_home' +
+                          ((selectedIndex == 0) ? '.png' : '_normal.png'),
+                    ),
+                    fit: BoxFit.contain),
               ),
             ),
           ),
           GestureDetector(
             onTap: () {
-              if(onTap != null) {
+              if (onTap != null) {
                 onTap!(1);
               }
             },
@@ -61,14 +60,13 @@ class CustomBottomNavbar extends StatelessWidget {
                       'assets/ic_order' +
                           ((selectedIndex == 1) ? '.png' : '_normal.png'),
                     ),
-                    fit: BoxFit.contain
-                ),
+                    fit: BoxFit.contain),
               ),
             ),
           ),
           GestureDetector(
             onTap: () {
-              if(onTap != null) {
+              if (onTap != null) {
                 onTap!(2);
               }
             },
@@ -81,8 +79,7 @@ class CustomBottomNavbar extends StatelessWidget {
                       'assets/ic_profile' +
                           ((selectedIndex == 2) ? '.png' : '_normal.png'),
                     ),
-                    fit: BoxFit.contain
-                ),
+                    fit: BoxFit.contain),
               ),
             ),
           ),
