@@ -16,17 +16,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: PaymentPage(
-        transaction: Transaction(
-          id: 1,
-          food: mockFoods[1],
-          quantity: 5,
-          total: (mockFoods[1].price! * 5 * 1.1).toInt() + 50000,
-          dateTime: DateTime.now(),
-          status: TransactionStatus.pending,
-          user: mockUser,
-        ),
-      ),
+      home: MainPage(),
       debugShowCheckedModeBanner: false,
     );
   }

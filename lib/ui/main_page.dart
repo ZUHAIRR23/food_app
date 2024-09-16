@@ -36,10 +36,7 @@ class _MainPageState extends State<MainPage> {
 
                 ),
                 Center(
-                  child: Text(
-                    'Screen 2',
-                    style: blackFontStyle1,
-                  ),
+                  child: OrderHistoryPage(),
                 ),
                 Center(
                   child: Text(
