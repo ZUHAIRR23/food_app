@@ -39,10 +39,7 @@ class _MainPageState extends State<MainPage> {
                   child: OrderHistoryPage(),
                 ),
                 Center(
-                  child: Text(
-                    'Screen 3',
-                    style: blackFontStyle1,
-                  ),
+                  child: ProfilePage(),
                 ),
               ],
             ),

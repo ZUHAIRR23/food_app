@@ -1,11 +1,8 @@
 part of 'widgets.dart';
 
 class OrderListItem extends StatelessWidget {
-  const OrderListItem({
-    super.key,
-    required this.transaction,
-    required this.itemWidth,
-  });
+  const OrderListItem(
+      {super.key, required this.transaction, required this.itemWidth});
 
   final Transaction transaction;
   final double itemWidth;
@@ -13,24 +10,22 @@ class OrderListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           height: 80,
           width: 80,
-          margin: EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
-              image: NetworkImage(
-                transaction.food?.picturePath ??
-                    'https://ui-avatars.com/api/?name=${transaction.food?.name}',
-              ),
+              image: NetworkImage(transaction.food?.picturePath ??
+                  'https://ui-avatars.com/api/?name=${transaction.food?.name}'),
               fit: BoxFit.cover,
             ),
           ),
         ),
         SizedBox(
-          width: itemWidth! - 182,
+          width: itemWidth! - 182, //(80 + 12 + 90)
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,7 +37,9 @@ class OrderListItem extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(transaction.quantity.toString() + ' item(s) ~ '),
+                  Text(
+                    transaction.quantity.toString() + ' item(s) ~ ',
+                  ),
                   Text(
                     NumberFormat.currency(
                       symbol: 'IDR ',
@@ -55,20 +52,129 @@ class OrderListItem extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text('waktu'),
-                (transaction.status == TransactionStatus.delivered)
-                    ? Text('Delivered', style: blackFontStyle2.copyWith(color: Colors.green),)
-                    : (transaction.status == TransactionStatus.delivered)
-                    ? Text('Canceled', style: blackFontStyle2.copyWith(color: Colors.red),)
-                    : (transaction.status == TransactionStatus.delivered)
-                    ? Text('Pending', style: blackFontStyle2.copyWith(color: Colors.yellow),)
-                    : Text('On Delivery', style: blackFontStyle2.copyWith(color: Colors.blue),)
-              ],
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              convertDateTimeDisplay(transaction.dateTime!),
+              style: greyFontStyle,
             ),
+            (transaction.status == TransactionStatus.delivered)
+                ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.green,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Delivered ',
+                            style: blackFontStyle2.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          Container(
+                            child: Icon(
+                              MdiIcons.checkCircle,
+                              color: Colors.white,
+                              size: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : (transaction.status == TransactionStatus.canceled)
+                    ? Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.red,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Canceled ',
+                                style: blackFontStyle2.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  letterSpacing: 1.5,
+                                ),
+                              ),
+                              Container(
+                                child: Icon(
+                                  MdiIcons.closeCircle,
+                                  color: Colors.white,
+                                  size: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : (transaction.status == TransactionStatus.pending)
+                        ? Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.yellow,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Pending ',
+                                    style: blackFontStyle2.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Icon(
+                                      MdiIcons.clockOutline,
+                                      color: Colors.white,
+                                      size: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.blue,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'On Delivery ',
+                                    style: blackFontStyle3.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Icon(
+                                      MdiIcons.walk,
+                                      color: Colors.white,
+                                      size: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+          ],
         ),
       ],
     );
