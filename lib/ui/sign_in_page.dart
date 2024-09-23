@@ -83,10 +83,7 @@ class _SignInPageState extends State<SignInPage> {
               margin: EdgeInsets.only(top: 24),
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: isLoading
-                  ? SpinKitFadingCircle(
-                      size: 45,
-                      color: mainColor,
-                    )
+                  ? loadingIndicator
                   : ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: mainColor,
@@ -94,7 +91,15 @@ class _SignInPageState extends State<SignInPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+
+                        await context.read<UserCubit>().signIn(emailController.text, passwordController.text);
+                        UserState state = context.read<UserCubit>().state;
+
+                      },
                       child: Text(
                         "Login",
                         style: blackFontStyle3.copyWith(

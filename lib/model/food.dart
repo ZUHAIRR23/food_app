@@ -1,5 +1,7 @@
 part of 'models.dart';
 
+enum FoodType { new_food, popular, recomended }
+
 class Food extends Equatable {
   final int? id;
   final String? name;
@@ -8,6 +10,7 @@ class Food extends Equatable {
   final String? ingredients;
   final double? price;
   final double? rate;
+  final List<FoodType> types;
 
   Food({
     this.id,
@@ -17,6 +20,7 @@ class Food extends Equatable {
     this.ingredients,
     this.price,
     this.rate,
+    this.types = const [],
   });
 
   @override
@@ -43,6 +47,7 @@ List<Food> mockFoods = [
     ingredients: 'brokoli, wortel, tomat ceri, cabai hijau besar, dan tusuk sate. Untuk bumbu marinasi, diperlukan bawang putih, jahe, kecap manis, saus tiram, minyak wijen, garam, dan merica. Sedangkan untuk bumbu kacang, siapkan kacang tanah, bawang putih, cabai merah besar, daun jeruk, air, gula merah, dan kecap manis',
     price: 150000,
     rate: 4.2,
+    types: [FoodType.new_food, FoodType.recomended]
   ),
   Food(
     id: 2,
@@ -54,6 +59,7 @@ List<Food> mockFoods = [
     ingredients: 'bawang putih, bawang merah, cabai merah, cabai rawit, daun bawang, kecap manis, saus tiram, garam, merica, minyak goreng, dan mentega. Untuk tambahan aroma dan rasa, siapkan pula daun jeruk, daun salam, serai, kayu manis, cengkeh, kapulaga, dan sedikit kunyit. Pelengkapnya bisa menggunakan telur dadar, acar, dan kerupuk',
     price: 25000,
     rate: 4.5,
+    types: [FoodType.popular]
   ),
   Food(
     id: 3,
@@ -65,6 +71,7 @@ List<Food> mockFoods = [
     ingredients: 'kancing, bawang putih, bawang merah, daun bawang, jahe, kecap manis, kecap asin, saus tiram, minyak wijen, garam, gula, merica, minyak ayam (minyak hasil dari lemak ayam), dan kaldu ayam. Untuk pelengkap, siapkan caisim, bawang goreng, dan pangsit goreng atau rebus',
     price: 20000,
     rate: 4.7,
+    types: [FoodType.popular]
   ),
   Food(
     id: 4,
@@ -76,6 +83,7 @@ List<Food> mockFoods = [
     ingredients: 'bawang putih, bawang merah, merica bubuk, garam, gula, telur, es batu, dan kaldu sapi. Untuk isian bakso beranak, siapkan bakso kecil, telur rebus, dan bahan tambahan seperti cabai rawit, daging cincang, atau keju. Untuk kuah bakso, gunakan kaldu sapi, bawang putih, seledri, daun bawang, garam, dan merica. Pelengkap bisa berupa bihun, mie kuning, tahu, pangsit, sawi, sambal, kecap, dan bawang goreng',
     price: 30000,
     rate: 4.3,
+    types: [FoodType.recomended]
   ),
   Food(
     id: 5,
@@ -87,6 +95,7 @@ List<Food> mockFoods = [
     ingredients: 'bawang putih, cabai merah keriting, cabai rawit merah, terasi bakar, kemiri, gula merah, asam jawa, jeruk limau, garam, dan minyak goreng. Untuk bumbu olesan, siapkan minyak kelapa dan sisa bumbu halus. Pelengkapnya bisa berupa lalapan seperti mentimun, tomat, daun kemangi, dan terong bakar',
     price: 50000,
     rate: 4.8,
+    types: [FoodType.new_food]
   ),
   Food(
     id: 6,
