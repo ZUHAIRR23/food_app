@@ -139,13 +139,32 @@ class _FoodPageState extends State<FoodPage> {
 
                     return Column(
                       children: foods
-                          .map((e) => Padding(
-                                padding: const EdgeInsets.all(8.0),
+                          .map(
+                            (e) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    DetailPage(
+                                      onBackButtonPressed: () {
+                                        Get.back();
+                                      },
+                                      transaction: Transaction(
+                                        food: e,
+                                        user: (context.read<UserCubit>().state
+                                                as UserLoaded)
+                                            .user,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: FoodListItem(
                                   food: e,
                                   itemWidth: listItemWidth,
                                 ),
-                              ))
+                              ),
+                            ),
+                          )
                           .toList(),
                     );
                   } else {
