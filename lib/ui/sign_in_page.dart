@@ -96,18 +96,39 @@ class _SignInPageState extends State<SignInPage> {
                           isLoading = true;
                         });
 
-                        await context.read<UserCubit>().signIn(emailController.text, passwordController.text);
+                        await context.read<UserCubit>().signIn(
+                            emailController.text, passwordController.text);
                         UserState state = context.read<UserCubit>().state;
 
-                        if(state is UserLoaded) {
+                        if (state is UserLoaded) {
                           context.read<FoodCubit>().getFoods();
                           context.read<TransactionCubit>().getTransactions();
-
-                          Get.to(MainPage());
-                        }else {
-                          
+                          Get.to(() => MainPage());
+                        } else {
+                          Get.snackbar(
+                            "",
+                            "",
+                            backgroundColor: "D9435E".toColor(),
+                            icon: Icon(
+                              MdiIcons.closeCircleOutline,
+                              color: Colors.white,
+                            ),
+                            titleText: Text(
+                              "Sign In Failed",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            messageText: Text(
+                              "Please try again later",
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ),
+                          );
+                          setState(() {
+                            isLoading = false;
+                          });
                         }
-
                       },
                       child: Text(
                         "Login",
