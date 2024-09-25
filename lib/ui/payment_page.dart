@@ -1,10 +1,15 @@
 part of 'pages.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key, required this.transaction});
 
   final Transaction transaction;
 
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return GeneralPage(
@@ -39,7 +44,7 @@ class PaymentPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadiusDirectional.circular(12),
                         image: DecorationImage(
-                          image: NetworkImage(transaction.food!.picturePath!),
+                          image: NetworkImage(widget.transaction.food!.picturePath!),
                         ),
                       ),
                     ),
@@ -52,7 +57,7 @@ class PaymentPage extends StatelessWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width - 189,
                           child: Text(
-                            transaction.food!.name!,
+                            widget.transaction.food!.name!,
                             style: blackFontStyle2,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -63,13 +68,13 @@ class PaymentPage extends StatelessWidget {
                             symbol: 'IDR ',
                             decimalDigits: 0,
                             locale: 'id_ID',
-                          ).format(transaction.food!.price),
+                          ).format(widget.transaction.food!.price),
                         ),
                       ],
                     ),
                     Expanded(
                       child: Text(
-                        '${transaction.quantity} item(s)',
+                        '${widget.transaction.quantity} item(s)',
                         style: greyFontStyle.copyWith(fontSize: 13),
                         textAlign: TextAlign.end,
                       ),
@@ -91,7 +96,7 @@ class PaymentPage extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      transaction.food!.name!,
+                      widget.transaction.food!.name!,
                       style: blackFontStyle3,
                     ),
                     Spacer(),
@@ -100,7 +105,7 @@ class PaymentPage extends StatelessWidget {
                         symbol: 'IDR ',
                         decimalDigits: 0,
                         locale: 'id_ID',
-                      ).format(transaction.food!.price),
+                      ).format(widget.transaction.food!.price),
                     )
                   ],
                 ),
@@ -114,7 +119,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      '${transaction.quantity.toString()} item(s)',
+                      '${widget.transaction.quantity.toString()} item(s)',
                     ),
                   ],
                 ),
@@ -133,7 +138,7 @@ class PaymentPage extends StatelessWidget {
                         decimalDigits: 0,
                         locale: 'id_ID',
                       ).format(
-                          transaction.food!.price! * transaction.quantity!),
+                          widget.transaction.food!.price! * widget.transaction.quantity!),
                     ),
                   ],
                 ),
@@ -155,8 +160,8 @@ class PaymentPage extends StatelessWidget {
                         symbol: 'IDR ',
                         decimalDigits: 0,
                         locale: 'id_ID',
-                      ).format(transaction.food!.price! *
-                          transaction.quantity! *
+                      ).format(widget.transaction.food!.price! *
+                          widget.transaction.quantity! *
                           0.1),
                     ),
                   ],
@@ -197,7 +202,7 @@ class PaymentPage extends StatelessWidget {
                         symbol: 'IDR ',
                         decimalDigits: 0,
                         locale: 'id_ID',
-                      ).format(transaction.total),
+                      ).format(widget.transaction.total),
                     )
                   ],
                 ),

@@ -1,8 +1,7 @@
 part of 'pages.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage(
-      {super.key, this.onBackButtonPressed, this.transaction});
+  const DetailPage({super.key, this.onBackButtonPressed, this.transaction});
 
   final Function? onBackButtonPressed;
   final Transaction? transaction;
@@ -174,7 +173,8 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       Container(
                         margin: EdgeInsets.fromLTRB(0, 4, 0, 16),
-                        child: Text(widget.transaction?.food?.ingredients ?? ''),
+                        child:
+                            Text(widget.transaction?.food?.ingredients ?? ''),
                       ),
                       //   Price
                       Container(
@@ -200,7 +200,10 @@ class _DetailPageState extends State<DetailPage> {
                                 symbol: 'IDR ',
                                 decimalDigits: 0,
                                 locale: 'id_ID',
-                              ).format(quantity * (widget.transaction?.food?.price?.toInt() ?? 0),
+                              ).format(
+                                quantity *
+                                    (widget.transaction?.food?.price?.toInt() ??
+                                        0),
                               ),
                             ),
                           ],
@@ -220,7 +223,16 @@ class _DetailPageState extends State<DetailPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(
+                              PaymentPage(
+                                transaction: widget.transaction!.copyWith(
+                                  quantity: quantity,
+                                  total: quantity * (widget.transaction?.food?.price?.toInt() ?? 0) + 50000,
+                                ),
+                              ),
+                            );
+                          },
                           child: Text(
                             'Order Now',
                             style: blackFontStyle3.copyWith(
