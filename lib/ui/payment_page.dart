@@ -10,6 +10,8 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return GeneralPage(
@@ -44,7 +46,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadiusDirectional.circular(12),
                         image: DecorationImage(
-                          image: NetworkImage(widget.transaction.food!.picturePath!),
+                          image: NetworkImage(
+                              widget.transaction.food!.picturePath!),
                         ),
                       ),
                     ),
@@ -137,8 +140,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         symbol: 'IDR ',
                         decimalDigits: 0,
                         locale: 'id_ID',
-                      ).format(
-                          widget.transaction.food!.price! * widget.transaction.quantity!),
+                      ).format(widget.transaction.food!.price! *
+                          widget.transaction.quantity!),
                     ),
                   ],
                 ),
@@ -310,7 +313,43 @@ class _PaymentPageState extends State<PaymentPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      bool result = await context
+                          .read<TransactionCubit>()
+                          .submitTransaction(widget.transaction.copyWith(
+                            dateTime: DateTime.now(),
+                            total: (widget.transaction.total! * 1.1).toInt() +
+                                50000,
+                          ));
+                      if (result) {
+                        Get.to(SuccessOrderPage());
+                      } else {
+                        Get.snackbar(
+                          "",
+                          "",
+                          backgroundColor: "D9435E".toColor(),
+                          icon: Icon(
+                            MdiIcons.closeCircleOutline,
+                            color: Colors.white,
+                          ),
+                          titleText: Text(
+                            "Transaction Failed",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          messageText: Text(
+                            "Please try again later",
+                            style: GoogleFonts.poppins(color: Colors.white),
+                          ),
+                        );
+                      }
+                    },
                     child: Text(
                       'Order Now',
                       style: blackFontStyle3.copyWith(color: Colors.white),
