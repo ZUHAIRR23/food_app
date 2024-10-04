@@ -21,65 +21,69 @@ class UserServices {
         ));
 
     if (response.statusCode != 200) {
-      return ApiReturnValue(message: 'Login failed, please try again');
+      return ApiReturnValue(message: 'Login Failed, Please Try Again');
     }
 
     var data = jsonDecode(response.body);
 
     User.token = data['data']['token'];
     User value = User.fromJson(data['data']['user']);
-
-    return ApiReturnValue(value: value);
-
     // await Future.delayed(Duration(milliseconds: 500));
 
-    // Login Berhasil
+    return ApiReturnValue(value: value);
+    // login berhasil
     // return ApiReturnValue(value: mockUser);
 
-    // Login Gagal
-    // return ApiReturnValue(message: "Email atau password salah");
+    //   login gagal
+    // return ApiReturnValue(message: "Email Atau Password Salah");
   }
 
   static Future<ApiReturnValue<User>> signUp(User user, String password,
       {File? pictureFile, http.Client? client}) async {
     if (client == null) {
-      client = http.Client();
+      client == http.Client();
     }
 
     String url = baseUrl + '/register';
 
-    var response = await http.post(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        'name': user.name,
-        'email': user.email,
-        'password': password,
-        'password_confirmation': password,
-        'address': user.address,
-        'city': user.city,
-        'houseNumber': user.houseNumber,
-        'phoneNumber': user.phoneNumber,
-      },
-    );
+    var response = await http.post(Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          //   Content-Type => melakukan request dengan format json
+          //   Accept => menerima response dengan format json
+        },
+        body: jsonEncode(
+          <String, String>{
+            'name': user.name!,
+            'email': user.email!,
+            'password': password,
+            'password_confirmation': password,
+            'address': user.address!,
+            'city': user.city!,
+            'houseNumber': user.houseNumber!,
+            'phoneNumber': user.phoneNumber!,
+          },
+        ));
 
     if (response.statusCode != 200) {
-      return ApiReturnValue(message: 'Register failed, please try again');
+      return ApiReturnValue(message: 'Register Failed, Please Try Again');
     }
 
     var data = jsonDecode(response.body);
 
-    User.token = data['data']['token'];
+    User.token = data['data']['access_token'];
     User value = User.fromJson(data['data']['user']);
 
-    // Upload Picture
     if (pictureFile != null) {
       ApiReturnValue<String> result = await uploadPicturePath(pictureFile);
+
+      if (result.value != null) {
+        value = value.copyWith(
+            picturePath: "https://food.rtid73.com/storage/${result.value}");
+      }
     }
 
-    return ApiReturnValue();
+    return ApiReturnValue(value: value);
   }
 
   static Future<ApiReturnValue<String>> uploadPicturePath(File pictureFile,
@@ -89,9 +93,9 @@ class UserServices {
     var uri = Uri.parse(url);
 
     if (request == null) {
-      request = http.MultipartRequest('POST', uri)
+      request = http.MultipartRequest("POST", uri)
         ..headers['Content-Type'] = 'application/json'
-        ..headers['Authorization'] = 'Barer ${User.token}';
+        ..headers['Authorization'] = 'Bearer ${User.token}';
     }
 
     var multiPartFile =
@@ -110,9 +114,7 @@ class UserServices {
 
       return ApiReturnValue(value: imagePath);
     } else {
-      return ApiReturnValue(message: 'Upload picture failed, please try again');
+      return ApiReturnValue(message: 'Upload Picture failed, Please Try Again');
     }
-
-    return ApiReturnValue();
   }
 }
