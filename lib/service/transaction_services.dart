@@ -11,22 +11,26 @@ class TransactionServices {
 
     var response = await client.get(Uri.parse(url), headers: {
       'Accept': 'application/json',
-      'Authorization': 'Bareer ${User.token}'
+      'Authorization': 'Bearer ${User.token}'
     });
+
+    print("USER TOKEN : ${User.token}");
 
     print("Response Transacion : ${response.body}");
 
-    if(response.statusCode != 200) {
-      return ApiReturnValue(message:  'Failed To Get Transaction');
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: 'Failed To Get Transaction');
     }
 
     var data = jsonDecode(response.body);
 
     print("Data Transaction : $data");
 
-    List<Transaction> value = (data['data']['data'] as Iterable).map((e) => Transaction.fromJson(e)).toList();
+    List<Transaction> transaction = (data['data']['data'] as Iterable)
+        .map((e) => Transaction.fromJson(e))
+        .toList();
 
-    return ApiReturnValue(value: mockTransaction);
+    return ApiReturnValue(value: transaction);
   }
 
   static Future<ApiReturnValue<Transaction>> submitTransactions(

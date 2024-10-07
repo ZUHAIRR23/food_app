@@ -26,7 +26,7 @@ class UserServices {
 
     var data = jsonDecode(response.body);
 
-    User.token = data['data']['token'];
+    User.token = data['data']['access_token'];
     User value = User.fromJson(data['data']['user']);
     // await Future.delayed(Duration(milliseconds: 500));
 
