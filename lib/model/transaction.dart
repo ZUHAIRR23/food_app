@@ -15,6 +15,7 @@ class Transaction extends Equatable {
   final DateTime? dateTime;
   final TransactionStatus? status;
   final User? user;
+  final String? paymentUrl;
 
   Transaction({
     this.id,
@@ -24,6 +25,7 @@ class Transaction extends Equatable {
     this.dateTime,
     this.status,
     this.user,
+    this.paymentUrl,
   });
 
   Transaction copyWith({
@@ -44,6 +46,20 @@ class Transaction extends Equatable {
         status: status ?? this.status,
         user: user ?? this.user);
   }
+
+  factory Transaction.fromJson(Map<String, dynamic> data) => Transaction(
+    id: data['id'],
+    food: Food.fromJson(data ['food']),
+    quantity: data['quantity'],
+    total: data['total'],
+    dateTime: DateTime.fromMillisecondsSinceEpoch(data['created_at']),
+    user: User.fromJson(data['user']),
+    paymentUrl: data['payment_url'],
+    status: data['status'] == 'PENDING' ? TransactionStatus.pending :
+            data['status'] == 'ON_DELIVERY' ? TransactionStatus.on_delivery :
+            data['status'] == 'CANCELED' ? TransactionStatus.canceled :
+            TransactionStatus.delivered
+  );
 
   @override
   // TODO: implement props

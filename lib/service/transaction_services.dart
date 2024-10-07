@@ -1,8 +1,30 @@
 part of 'services.dart';
 
 class TransactionServices {
-  static Future<ApiReturnValue<List<Transaction>>> getTransactions() async {
-    await Future.delayed(Duration(seconds: 2));
+  static Future<ApiReturnValue<List<Transaction>>> getTransactions(
+      {http.Client? client}) async {
+    client ??= http.Client();
+
+    String url = baseUrl + '/transaction';
+
+    print("URL Transaction : $url");
+
+    var response = await client.get(Uri.parse(url), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bareer ${User.token}'
+    });
+
+    print("Response Transacion : ${response.body}");
+
+    if(response.statusCode != 200) {
+      return ApiReturnValue(message:  'Failed To Get Transaction');
+    }
+
+    var data = jsonDecode(response.body);
+
+    print("Data Transaction : $data");
+
+    List<Transaction> value = (data['data']['data'] as Iterable).map((e) => Transaction.fromJson(e)).toList();
 
     return ApiReturnValue(value: mockTransaction);
   }
