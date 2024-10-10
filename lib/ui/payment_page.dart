@@ -205,7 +205,14 @@ class _PaymentPageState extends State<PaymentPage> {
                         symbol: 'IDR ',
                         decimalDigits: 0,
                         locale: 'id_ID',
-                      ).format(widget.transaction.total),
+                      ).format(
+                        widget.transaction.total! +
+                            (widget.transaction.food!.price! *
+                                    widget.transaction.quantity! *
+                                    0.1)
+                                .toInt() +
+                            50000,
+                      ),
                     )
                   ],
                 ),
@@ -322,7 +329,11 @@ class _PaymentPageState extends State<PaymentPage> {
                           .read<TransactionCubit>()
                           .submitTransaction(widget.transaction.copyWith(
                             dateTime: DateTime.now(),
-                            total: (widget.transaction.total! * 1.1).toInt() +
+                            total: widget.transaction.total! +
+                                (widget.transaction.food!.price! *
+                                        widget.transaction.quantity! *
+                                        0.1)
+                                    .toInt() +
                                 50000,
                           ));
                       if (paymentURL != null) {
