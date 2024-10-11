@@ -14,7 +14,6 @@ class _ProfilePageState extends State<ProfilePage> {
     'Home Address',
     'Security',
     'Payments',
-    'Sign Out',
   ];
 
   List<String> foodMarketMenuList = [
@@ -106,6 +105,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ))
                 .toList(),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context.read<UserCubit>().signOut();
+              Get.to(SignInPage());
+            },
+            child: Text("Sign Out"),
           ),
         ],
       ),

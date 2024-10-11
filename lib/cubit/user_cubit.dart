@@ -3,6 +3,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:food_app/model/models.dart';
 import 'package:food_app/service/services.dart';
+import 'package:food_app/ui/pages.dart';
+import 'package:get/get.dart';
 part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
@@ -36,6 +38,12 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> signOut() async {
-    emit(UserInitial());
+    ApiReturnValue<bool> result = await UserServices.logout();
+
+    if (result.value != null) {
+      emit(UserInitial());
+    } else {
+      emit(UserLoadingFailed(result.message!));
+    }
   }
 }

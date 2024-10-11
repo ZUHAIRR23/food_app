@@ -9,10 +9,13 @@ class TransactionServices {
 
     print("URL Transaction : $url");
 
-    var response = await client.get(Uri.parse(url), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${User.token}'
-    });
+    // var response = await client.get(Uri.parse(url), headers: {
+    //   'Accept': 'application/json',
+    //   'Authorization': 'Bearer ${User.token}'
+    // });
+
+    var response =
+        await client.get(Uri.parse(url), headers: ApiServices.headersGet());
 
     print("USER TOKEN : ${User.token}");
 
@@ -43,10 +46,7 @@ class TransactionServices {
     print("URL Submit Transaction : $url");
 
     var response = await client.post(Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${User.token}'
-        },
+        headers: ApiServices.headersPost(),
         body: jsonEncode(<String, dynamic>{
           'food_id': transaction.food!.id,
           'user_id': transaction.food!.id,
