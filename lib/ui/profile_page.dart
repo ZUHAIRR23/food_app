@@ -33,23 +33,26 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Container(
               width: 120,
               height: 120,
-              margin: EdgeInsets.only(bottom: 7),
-              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: NetworkImage(
-                      'https://i.pinimg.com/236x/89/4f/15/894f156accbcbff8a5a406a1ba504bb8.jpg'),
+                    (context.read<UserCubit>().state as UserLoaded)
+                            .user
+                            .picturePath ??
+                        "http://ui-avatars.com/api/?name=${(context.read<UserCubit>().state as UserLoaded).user.name}",
+                  ),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
           Text(
-            'Zuhair',
+            '${(context.read<UserCubit>().state as UserLoaded).user.name}',
             style: blackFontStyle1.copyWith(fontSize: 24),
           ),
           Text(
-            'zuhair@gmail.com',
+            '${(context.read<UserCubit>().state as UserLoaded).user.email}',
             style: greyFontStyle.copyWith(fontSize: 20),
           ),
           Container(

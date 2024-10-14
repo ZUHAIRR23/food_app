@@ -92,6 +92,30 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                       onPressed: () async {
+                        if (emailController.text == "" &&
+                            passwordController.text == "") {
+                          Get.snackbar(
+                            "",
+                            "",
+                            backgroundColor: "D9435E".toColor(),
+                            icon: Icon(
+                              MdiIcons.closeCircleOutline,
+                              color: Colors.white,
+                            ),
+                            titleText: Text(
+                              "Email or Password is Wrong",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            messageText: Text(
+                              "Please check your email and password",
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ),
+                          );
+                        }
+
                         setState(() {
                           isLoading = true;
                         });

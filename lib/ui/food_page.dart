@@ -59,9 +59,9 @@ class _FoodPageState extends State<FoodPage> {
                   image: DecorationImage(
                     image: NetworkImage(
                       (context.read<UserCubit>().state as UserLoaded)
-                          .user
-                          .picturePath ??
-                          "http://ui-avatars.com/api/?name=${(context.read<UserCubit>().state as UserLoaded).user.name}",
+                              .user
+                              .picturePath ??
+                          "http://ui-avatars.com/api/?name=${(context.read<UserCubit>().state as UserLoaded).user.email}",
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -79,39 +79,39 @@ class _FoodPageState extends State<FoodPage> {
           child: BlocBuilder<FoodCubit, FoodState>(
               builder: (_, state) => (state is FoodLoaded)
                   ? ListView(
-                scrollDirection: Axis.horizontal,
-                children: state.foods
-                    .map(
-                      (food) => Padding(
-                    padding: EdgeInsets.only(
-                        left: food == state.foods.first
-                            ? defaultMargin
-                            : 0,
-                        right: defaultMargin),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(
-                          DetailPage(
-                            onBackButtonPressed: () {
-                              Get.back();
-                            },
-                            transaction: Transaction(
-                              food: food,
-                              user: (context.read<UserCubit>().state
-                              as UserLoaded)
-                                  .user,
+                      scrollDirection: Axis.horizontal,
+                      children: state.foods
+                          .map(
+                            (food) => Padding(
+                              padding: EdgeInsets.only(
+                                  left: food == state.foods.first
+                                      ? defaultMargin
+                                      : 0,
+                                  right: defaultMargin),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    DetailPage(
+                                      onBackButtonPressed: () {
+                                        Get.back();
+                                      },
+                                      transaction: Transaction(
+                                        food: food,
+                                        user: (context.read<UserCubit>().state
+                                                as UserLoaded)
+                                            .user,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: FoodCard(
+                                  food: food,
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: FoodCard(
-                        food: food,
-                      ),
-                    ),
-                  ),
-                )
-                    .toList(),
-              )
+                          )
+                          .toList(),
+                    )
                   : const Center()),
         ),
         Container(
@@ -137,44 +137,45 @@ class _FoodPageState extends State<FoodPage> {
                     List<Food> foods = state.foods
                         .where(
                           (e) => e.types!.contains(
-                        (selectedIndex == 0)
-                            ? FoodType.new_food
-                            : (selectedIndex == 1)
-                            ? FoodType.popular
-                            : FoodType.recomended,
-                      ),
-                    )
+                            (selectedIndex == 0)
+                                ? FoodType.new_food
+                                : (selectedIndex == 1)
+                                    ? FoodType.popular
+                                    : FoodType.recomended,
+                          ),
+                        )
                         .toList();
                     return Column(
                       children: foods
                           .map(
                             (e) => GestureDetector(
-                          onTap: () {
-                            Get.to(
-                              DetailPage(
-                                onBackButtonPressed: () {
-                                  Get.back();
-                                },
-                                transaction: Transaction(
+                              onTap: () {
+                                Get.to(
+                                  DetailPage(
+                                    onBackButtonPressed: () {
+                                      Get.back();
+                                    },
+                                    transaction: Transaction(
+                                      food: e,
+                                      user: (context.read<UserCubit>().state
+                                              as UserLoaded)
+                                          .user,
+                                    ),
+                                  ),
+                                )!
+                                    .then((value) {
+                                  //   method refresh
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: FoodListItem(
                                   food: e,
-                                  user: (context.read<UserCubit>().state
-                                  as UserLoaded)
-                                      .user,
+                                  itemWidth: listWidth,
                                 ),
                               ),
-                            )!.then((value){
-                            //   method refresh
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FoodListItem(
-                              food: e,
-                              itemWidth: listWidth,
                             ),
-                          ),
-                        ),
-                      )
+                          )
                           .toList(),
                     );
                   } else {
