@@ -119,33 +119,33 @@ class OrderListItem extends StatelessWidget {
                       )
                     : (transaction.status == TransactionStatus.pending)
                         ? Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.yellow,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Pending ',
-                                    style: blackFontStyle2.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      letterSpacing: 1.5,
-                                    ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.yellow,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Pending ',
+                                  style: blackFontStyle2.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    letterSpacing: 1.5,
                                   ),
-                                  Container(
-                                    child: Icon(
-                                      MdiIcons.clockOutline,
-                                      color: Colors.white,
-                                      size: 12,
-                                    ),
+                                ),
+                                Container(
+                                  child: Icon(
+                                    MdiIcons.clockOutline,
+                                    color: Colors.white,
+                                    size: 12,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          )
+                          ),
+                        )
                         : Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
