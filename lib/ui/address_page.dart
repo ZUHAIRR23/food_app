@@ -272,7 +272,7 @@ class _AddressPageState extends State<AddressPage> {
                           // Jika berhasil, ambil data lain
                           context.read<FoodCubit>().getFoods();
                           context.read<TransactionCubit>().getTransactions();
-                          Get.to(() => MainPage());
+                          Get.to(() => SuccessSignUpPage());
                         } else {
                           // Menampilkan pesan jika sign up gagal
                           Get.snackbar(

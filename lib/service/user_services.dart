@@ -161,4 +161,30 @@ class UserServices {
 
     return ApiReturnValue(value: value);
   }
+
+  static Future<ApiReturnValue<User>> getUser(User user,
+      {http.Client? client}) async {
+
+    client ??= http.Client();
+
+    String url = '$baseUrl/user';
+    print('URL Get User : $url');
+
+    var response = await client.get(Uri.parse(url),
+      headers: ApiServices.headersGet(token: User.token));
+
+    if(response.statusCode != 200) {
+      return ApiReturnValue(
+        message: 'Get user failed, please try again'
+      );
+    }
+
+    print("Response Get User : ${response.body}");
+
+    var data = jsonDecode(response.body);
+
+    User value = User.fromJson(data['data']);
+
+    return ApiReturnValue(value: value);
+  }
 }

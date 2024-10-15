@@ -9,114 +9,224 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int selectedIndex = 0;
-  List<String> accountMenuList = [
-    'Edit Profile',
-    'Home Address',
-    'Security',
-    'Payments',
-  ];
 
-  List<String> foodMarketMenuList = [
-    'Rate App',
-    'Help Center',
-    'Privacy & Policy',
-    'Term & Conditions',
-  ];
+  void refresh() {
+    context
+        .read<UserCubit>()
+        .getUser((context.read<UserCubit>().state as UserLoaded).user);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 85),
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    (context.read<UserCubit>().state as UserLoaded)
-                            .user
-                            .picturePath ??
-                        "http://ui-avatars.com/api/?name=${(context.read<UserCubit>().state as UserLoaded).user.name}",
+    return Scaffold(
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Gambar
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Container(
+                width: 150,
+                height: 150,
+                margin: const EdgeInsets.only(
+                  top: 26.0,
+                ),
+                padding: const EdgeInsets.all(
+                  10.0,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: NetworkImage((context.read<UserCubit>().state
+                                    as UserLoaded)
+                                .user
+                                .picturePath ??
+                            'https://ui-avatars.com/api/?name=${(context.read<UserCubit>().state as UserLoaded).user.name}'),
+                        fit: BoxFit.cover),
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-          Text(
-            '${(context.read<UserCubit>().state as UserLoaded).user.name}',
-            style: blackFontStyle1.copyWith(fontSize: 24),
-          ),
-          Text(
-            '${(context.read<UserCubit>().state as UserLoaded).user.email}',
-            style: greyFontStyle.copyWith(fontSize: 20),
-          ),
-          Container(
-            width: double.infinity,
-            height: 45,
-            margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            color: Colors.white,
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: CustomTabbar(
-              selectedIndex: selectedIndex,
-              titles: ['Account', 'FoodMarket'],
-              onTap: (index) {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
+            // User Name
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: defaultMargin,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    (context.read<UserCubit>().state as UserLoaded).user.name ??
+                        '',
+                    style: blackFontStyle1,
+                  ),
+                  Text(
+                    (context.read<UserCubit>().state as UserLoaded)
+                            .user
+                            .email ??
+                        '',
+                    style: blackFontStyle2.copyWith(color: greyColor),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          Column(
-            children: (selectedIndex == 0
-                    ? accountMenuList
-                    : foodMarketMenuList)
-                .map((e) => Padding(
-                      padding: const EdgeInsets.only(
-                        right: defaultMargin,
-                        left: defaultMargin,
-                        bottom: 16,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // Jarak Putih
+            Container(
+              color: Colors.white,
+              height: 45,
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20),
+            ),
+            // CustomTabBar
+            Container(
+              padding: const EdgeInsets.fromLTRB(
+                defaultMargin,
+                defaultMargin,
+                defaultMargin,
+                0,
+              ),
+              child: Column(
+                children: [
+                  CustomTabbar(
+                    selectedIndex: selectedIndex,
+                    titles: const [
+                      'Account',
+                      'FoodMarker',
+                    ],
+                    onTap: (index) {
+                      setState(
+                        () {
+                          selectedIndex = index;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  (selectedIndex == 0)
+                      ? Container(
+                          child: Column(
                             children: [
-                              Text(
-                                e,
-                                style: blackFontStyle3,
+                              Container(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => EditProfilePage())!
+                                        .then((value) => refresh());
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Edit Profile',
+                                        style: blackFontStyle2,
+                                      ),
+                                      SizedBox(
+                                        width: 40,
+                                        child: Image.asset(
+                                          'assets/right_arrow.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: greyColor,
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Home Address',
+                                      style: blackFontStyle2,
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                      child: Image.asset(
+                                        'assets/right_arrow.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Security',
+                                      style: blackFontStyle2,
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                      child: Image.asset(
+                                        'assets/right_arrow.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Payment',
+                                      style: blackFontStyle2,
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                      child: Image.asset(
+                                        'assets/right_arrow.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.read<UserCubit>().signOut();
+                                        Get.to(SignInPage());
+                                      },
+                                      child: Text(
+                                        'Sign Out',
+                                        style: blackFontStyle2,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                      child: Image.asset(
+                                        'assets/right_arrow.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ))
-                .toList(),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              context.read<UserCubit>().signOut();
-              Get.to(SignInPage());
-            },
-            child: Text("Sign Out"),
-          ),
-        ],
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
